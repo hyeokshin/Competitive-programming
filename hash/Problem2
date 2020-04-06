@@ -1,0 +1,50 @@
+#include <string>
+#include <vector>
+#include <set>
+
+class Compare
+{
+public:
+	Compare(std::string key) :mKey(key) {}
+public:
+	bool operator < (const Compare& other) const
+	{
+		const std::string otherKey = other.getKey();
+		if (otherKey.size() < mKey.size())
+		{
+			const std::string parsedStr = mKey.substr(0, otherKey.size());
+			if (parsedStr.compare(otherKey) == 0)
+			{
+				return false;
+			}
+		}
+		else
+		{
+			const std::string parsedStr = otherKey.substr(0, mKey.size());
+			if (parsedStr.compare(mKey) == 0)
+			{
+				return false;
+			}
+		}
+		return mKey < other.getKey();
+	}
+private:
+	std::string getKey() const { return mKey; }
+private:
+	std::string mKey;
+};
+
+bool solution(std::vector<std::string> phone_book) {
+	bool answer = true;
+
+	std::set<Compare> hash;
+	for (auto it : phone_book)
+	{
+		hash.insert(Compare(it));
+	}
+	if (hash.size() != phone_book.size())
+	{
+		answer = false;
+	}
+	return answer;
+}
