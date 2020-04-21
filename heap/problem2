@@ -1,0 +1,45 @@
+#include <string>
+#include <vector>
+#include <queue>
+
+using namespace std;
+
+int solution(int stock, vector<int> dates, vector<int> supplies, int k)
+{
+	int answer = 0;
+	int currentStock = stock;
+	int currentIndex = 0;
+
+	priority_queue<int, vector<int>, less<int>> heap;
+	while (currentStock < k)
+	{
+		// 현재 밀가루로 버틸 수 있는 날짜들 중에서 가장 물량이 많은 것으로 공급받기
+		for (int idx = currentIndex; idx < static_cast<int>(dates.size()); idx++)
+		{
+			if (dates[idx] <= currentStock)
+			{
+				heap.push(supplies[idx]);
+				currentIndex++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		currentStock += heap.top();
+		heap.pop();
+		answer++;
+	}
+	return answer;
+}
+
+int main()
+{
+	const int stock = 4;
+	const vector<int> dates = { 4, 10, 15 };
+	const vector<int> supplies = { 20, 5, 10 };
+	const int k = 30;
+
+	solution(stock, dates, supplies, k);
+	return 0;
+}
