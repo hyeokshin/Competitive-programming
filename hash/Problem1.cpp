@@ -24,19 +24,20 @@ string solution(vector<string> participant, vector<string> completion)
 	unordered_map<string, int> completionMap;
 	for (auto iter : completion)
 	{
-		if (completionMap.find(iter) != completionMap.end())
+		if (completionMap.find(iter) == completionMap.end())
 		{
-			completionMap[iter]++;
+			completionMap.insert(make_pair(iter, 1));
 		}
 		else
 		{
-			completionMap.insert(make_pair(iter, 1));
+			completionMap[iter]++;
 		}
 	}
 
 	for (auto iter : participant)
 	{
-		if (completionMap.find(iter) == completionMap.end()) {
+		if (completionMap.find(iter) == completionMap.end()) 
+        {
 			answer = iter;
 			break;
 		}
